@@ -1,0 +1,38 @@
+<div class="selector-container">
+  <div class="form-group">
+    <label for="city-select">Selecione a Cidade:</label>
+    <select id="city-select" [value]="selectedCity().id" (change)="onCityChange($event)">
+      @for (city of cities(); track city.id) {
+        <option [value]="city.id">{{ city.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="product-select">Produtos Disponíveis:</label>
+    <select 
+      id="product-select" 
+      [value]="selectedOption()?.id ?? ''" 
+      (change)="onProductChange($event)"
+    >
+      <option value="" disabled [selected]="selectedOption() === null">
+        -- Selecione um produto --
+      </option>
+
+      @for (product of availableProducts(); track product.id) {
+        <option [value]="product.id">
+          {{ product.name }} - R$ {{ product.price }}
+        </option>
+      }
+    </select>
+  </div>
+
+  @if (selectedOption(); as product) {
+    <div class="summary-card">
+      <h3>Resumo da Seleção</h3>
+      <p><strong>Cidade:</strong> {{ selectedCity().name }}</p>
+      <p><strong>Produto:</strong> {{ product.name }}</p>
+      <p><strong>Preço:</strong> R$ {{ product.price }}</p>
+    </div>
+  }
+</div>
